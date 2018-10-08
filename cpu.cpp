@@ -12,9 +12,8 @@ typedef struct {
 
 memoryCell RAM[15999];
 
+int main(){
 
-
-
-
-
+   return 0;
+}
 
