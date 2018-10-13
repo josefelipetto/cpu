@@ -13,7 +13,7 @@ RAM::RAM() {
 void RAM::debug() {
 
     for(auto x : memoryCells){
-        cout << x.getContent() << "|" ;
+        cout << x.getAddr() << "," << x.getContent() << "|" ;
     }
 
 }
