@@ -20,7 +20,7 @@ public:
 
     RAM();
 
-    void debug();
+    void debug(unsigned int begin, unsigned int iEnd);
 
     MemoryCell get(unsigned int memoryAddress );
 

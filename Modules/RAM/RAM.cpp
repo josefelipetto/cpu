@@ -20,10 +20,10 @@ void RAM::set(unsigned int memoryAddress, word content) {
 
 }
 
-void RAM::debug() {
+void RAM::debug(unsigned int begin, unsigned int iEnd) {
 
-    for(auto x : memoryCells){
-        cout << x.getAddr() << "," << x.getContent() << "|" ;
+    for(unsigned int i = begin; i < iEnd; ++i){
+        cout << memoryCells[i].getAddr() << "," << memoryCells[i].getContent() << "|" ;
     }
 
 }

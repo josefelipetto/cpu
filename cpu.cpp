@@ -5,6 +5,9 @@
 #include <iostream>
 #include <fstream>
 #include "Modules/RAM/RAM.h"
+#include "Modules/Loader/Loader.h"
+#include "Modules/Opcodes.h"
+#include "Modules/Regcodes.h"
 
 using namespace std;
 
@@ -12,40 +15,16 @@ using namespace std;
 typedef int word;
 
 
-//void initializeMemory(){
-//
-//   int addr = 0;
-//
-//   for( memoryCell cell : RAM){
-//      cell.addr = addr;
-//      cell.content = 0;
-//      addr++;
-//   }
-//
-//}
-
-void initializeOpCodes(){
-
-   ifstream infile("OPCODES.esym");
-   string line;
-
-   while (getline(infile,line)){
-
-   }
-
-}
-
-
 int main(){
 
+    // Initialize components;
     RAM ram;
 
-//    word aux = 83;
-//
-//    ram.set( (unsigned int) 15999,aux);
-//
-//    cout << (ram.get( (unsigned int) 15999)).getAddr() << endl;
+    Loader loader(0,"output.run", &ram);
+    loader.load();
 
+    Opcodes opcodes("OPCODES.esym");
+    Regcodes regcodes("REGCODES.esym");
 
     return 0;
 }
