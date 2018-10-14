@@ -17,3 +17,7 @@ word MemoryCell::getContent() {
     return content;
 }
 
+void MemoryCell::set(word value) {
+    content = value;
+}
+

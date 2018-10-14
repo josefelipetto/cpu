@@ -4,7 +4,7 @@
 
 #include <iostream>
 #include <fstream>
-#include "Modules/RAM.h"
+#include "Modules/RAM/RAM.h"
 
 using namespace std;
 
@@ -40,7 +40,13 @@ int main(){
 
     RAM ram;
 
-    ram.debug();
+//    word aux = 83;
+//
+//    ram.set( (unsigned int) 15999,aux);
+//
+//    cout << (ram.get( (unsigned int) 15999)).getAddr() << endl;
+
+
     return 0;
 }
 

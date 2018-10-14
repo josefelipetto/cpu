@@ -10,6 +10,16 @@ RAM::RAM() {
     }
 }
 
+MemoryCell RAM::get(unsigned int memoryAddress) {
+    return memoryCells.at(memoryAddress);
+}
+
+void RAM::set(unsigned int memoryAddress, word content) {
+
+    memoryCells[memoryAddress].set(content);
+
+}
+
 void RAM::debug() {
 
     for(auto x : memoryCells){

@@ -17,6 +17,8 @@ public:
 
     MemoryCell(unsigned int inputAddr, word inputContent);
 
+    void set(word value);
+
 private:
 
     unsigned int addr;

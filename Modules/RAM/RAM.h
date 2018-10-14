@@ -22,6 +22,10 @@ public:
 
     void debug();
 
+    MemoryCell get(unsigned int memoryAddress );
+
+    void set(unsigned int memoryAddress, word content);
+
 private:
 
     std::vector<MemoryCell> memoryCells;
