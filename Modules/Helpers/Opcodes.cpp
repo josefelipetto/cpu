@@ -3,9 +3,9 @@
 //
 
 #include "Opcodes.h"
-#include "Helpers/StringHelper.h"
+#include "StringHelper.h"
 
-map<string,unsigned int> Opcodes::getCodes(){
+map<unsigned int,string> Opcodes::getCodes(){
 
     return codes;
 }
@@ -21,6 +21,10 @@ Opcodes::Opcodes(string opcodes_file) {
     while (getline(infile,line)) {
         vector<string> params = stringHelper.split(line, '|');
 
-        codes.insert(pair<string,unsigned int>(params[0],stoi(params[1])));
+        codes.insert(pair<unsigned int,string>(stoi(params[1]),params[0]));
     }
+}
+
+string Opcodes::getCommand(unsigned int opcode) {
+    return codes.find(opcode)->second;
 }

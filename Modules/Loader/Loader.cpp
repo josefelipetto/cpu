@@ -12,6 +12,8 @@ Loader::Loader(unsigned int addr, string run_file_location, RAM * memory) {
     run_file = run_file_location;
 
     ram = memory;
+
+    load();
 }
 
 void Loader::load() {
@@ -23,6 +25,7 @@ void Loader::load() {
     string code = "";
 
     while (getline(infile,line)){
+
         code.append(line);
     }
 
@@ -33,12 +36,13 @@ void Loader::load() {
     unsigned int memoryPosition = init_addr;
 
     for(string x : tokens){
+
         word value = stoi(x);
 
         ram->set(memoryPosition, value);
 
         memoryPosition++;
     }
-
+//
 //    ram->debug(init_addr, (unsigned int) tokens.size() );
 }

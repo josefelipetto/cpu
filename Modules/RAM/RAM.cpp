@@ -10,8 +10,9 @@ RAM::RAM() {
     }
 }
 
-MemoryCell RAM::get(unsigned int memoryAddress) {
-    return memoryCells.at(memoryAddress);
+word RAM::get(unsigned int memoryAddress) {
+//    cout << memoryCells.at(memoryAddress).getAddr() << "," << memoryCells.at(memoryAddress).getContent() << endl;
+    return memoryCells.at(memoryAddress).getContent();
 }
 
 void RAM::set(unsigned int memoryAddress, word content) {

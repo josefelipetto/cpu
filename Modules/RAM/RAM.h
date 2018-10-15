@@ -22,7 +22,7 @@ public:
 
     void debug(unsigned int begin, unsigned int iEnd);
 
-    MemoryCell get(unsigned int memoryAddress );
+    word get(unsigned int memoryAddress );
 
     void set(unsigned int memoryAddress, word content);
 

@@ -12,19 +12,24 @@
 #include <map>
 #include <iostream>
 
+typedef int word;
+
 using namespace std;
 
-class Regcodes final{
+class Registers final{
 
 public:
 
-    map<string,unsigned int> getRegisters();
+    map<unsigned int,word> getRegisters();
 
-    Regcodes(string filename);
+    Registers(string filename);
 
+    word get(unsigned int reg);
+
+    void set(unsigned int memAddr, word value);
 private:
 
-    map<string, unsigned int> registers;
+    map<unsigned int,word> registers;
 
 };
 

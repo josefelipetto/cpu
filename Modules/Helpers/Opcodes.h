@@ -18,13 +18,15 @@ class Opcodes final{
 
 public:
 
-    map<string,unsigned int> getCodes();
+    map<unsigned int,string> getCodes();
 
     Opcodes(string opcodes_file);
 
+    string getCommand(unsigned int opcode);
+
 private:
 
-    map<string,unsigned int> codes;
+    map<unsigned int,string> codes;
 };
 
 #endif //CPU_OPCODES_H
