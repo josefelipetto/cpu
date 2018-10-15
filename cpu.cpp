@@ -42,6 +42,8 @@ int main(){
         // Decode
         string command = opcodes.getCommand(currentCommand);
 
+        cout << pc.get() << " " << command << endl;
+        
         if(command.compare("MOV_RR") == 0)
         {
             // fetch

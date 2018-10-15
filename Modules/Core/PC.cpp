@@ -17,3 +17,7 @@ void PC::set(unsigned int addr) {
     value = addr;
 }
 
+unsigned int PC::get() {
+    return value;
+}
+

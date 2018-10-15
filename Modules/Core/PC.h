@@ -16,6 +16,8 @@ public:
 
     void set(unsigned int addr);
 
+    unsigned int get();
+
 private:
 
     unsigned int value;
