@@ -42,8 +42,8 @@ int main(){
         // Decode
         string command = opcodes.getCommand(currentCommand);
 
-        cout << pc.get() << " " << command << endl;
-        
+        cout << pc.get() << " " << command << " ";
+
         if(command.compare("MOV_RR") == 0)
         {
             // fetch
@@ -54,6 +54,8 @@ int main(){
             // handle
             registers.set((unsigned int)R1,registers.get((unsigned int) R2));
 
+            cout << R1 << " " << R2 << endl;
+
         }
         else if(command.compare("MOV_RM") == 0)
         {
@@ -61,10 +63,46 @@ int main(){
             // fetch
             word R1 = ram.get(pc.next());
 
-            word R2 = ram.get(pc.next());
+            word memoryAddress = ram.get(pc.next());
 
             //handle
-            registers.set(R1,ram.get((unsigned int)R2));
+            registers.set(R1,ram.get((unsigned int)memoryAddress));
+
+            cout << R1 << " " << "[" << memoryAddress << "]" << endl;
+        }
+        else if(command.compare("MOV_MR") == 0 )
+        {
+            unsigned int destination = ram.get(pc.next());
+
+            word sourceRegister = ram.get(pc.next());
+
+            ram.set(destination, registers.get(sourceRegister));
+
+            cout << "[" << destination << "] " << sourceRegister << endl;
+        }
+        else if(command.compare("MOV_RI") == 0)
+        {
+            word destinationRegister = ram.get(pc.next());
+
+            word value = ram.get(pc.next());
+
+            registers.set(destinationRegister,value);
+
+            cout << destinationRegister << " " << value << endl;
+        }
+        else if(command.compare("MOV_MI") == 0)
+        {
+            unsigned int destination = ram.get(pc.next());
+
+            word value = ram.get(pc.next());
+
+            ram.set(destination,value);
+
+            cout << "[" << destination << "] " << value << endl;
+        }
+        else if(command.compare("NOP") == 0)
+        {
+            cout << endl;
         }
 
         currentCommand = ram.get( pc.next() );
