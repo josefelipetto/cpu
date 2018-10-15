@@ -7,7 +7,7 @@
 #include "Modules/RAM/RAM.h"
 #include "Modules/Loader/Loader.h"
 #include "Modules/Helpers/Opcodes.h"
-#include "Modules/Helpers/Registers.h"
+#include "Modules/Core/Registers.h"
 #include "Modules/Core/PC.h"
 
 using namespace std;
