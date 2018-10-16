@@ -9,6 +9,7 @@
 #include "Modules/Helpers/Opcodes.h"
 #include "Modules/Core/Registers.h"
 #include "Modules/Core/PC.h"
+#include "Modules/Core/Flag.h"
 
 using namespace std;
 
@@ -33,6 +34,8 @@ int main(){
     Registers registers("REGCODES.esym");
 
     PC pc((unsigned int)INIT_ADDR);
+
+    Flag flag((unsigned int)INIT_ADDR);
 
     // start executing main workflow
     unsigned int currentCommand = ram.get(INIT_ADDR);
@@ -100,6 +103,88 @@ int main(){
 
             cout << "[" << destination << "] " << value << endl;
         }
+        else if(command.compare("ADD") == 0){
+
+          word R1 = ram.get(pc.next());
+
+          word R2 = ram.get(pc.next());
+
+          registers.set((int)R1,(R1+R2));
+
+          cout << R1 << " " << R2 << endl;
+
+          //print the result of the sum
+          // cout << registers.get(R1) << endl;
+        }
+        else if(command.compare("SUB") == 0){
+
+          word R1 = ram.get(pc.next());
+
+          word R2 = ram.get(pc.next());
+
+          registers.set((int)R1,(R1-R2));
+
+          cout << R1 << " " << R2 << endl;
+
+          //print the result of the subtraction
+          // cout << registers.get(R1) << endl;
+        }
+        else if(command.compare("CMP") == 0){
+
+          word R1 = ram.get(pc.next());
+
+          word R2 = ram.get(pc.next());
+
+          flag.set(R1-R2);
+
+          cout << R1 << " " << R2 << endl;
+
+          // print the flag state (signed int)
+          // cout << flag.get() << endl;
+        }
+        else if(command.compare("JMP") == 0){
+
+          unsigned int jumpValue = ram.get(pc.next());
+
+          // jump a specific number of commands
+          // pc.set((unsigned int)jumpValue);
+
+          cout << jumpValue << endl;
+
+          // print the cicle of the program counter
+          // cout << pc.get() << endl;
+        }
+        else if(command.compare("JZ") == 0){
+
+          word offset = ram.get(pc.next());
+
+          int flagChecker = flag.get();
+
+          int pcJump = pc.get();
+
+          cout << offset << endl;
+
+          // conditional jump
+          // if(flagChecker==0)
+          // pc.set((pcJump+offset));
+
+          // cout << pc.get() << endl;
+        }
+        else if(command.compare("JG") == 0){
+
+          word offset = ram.get(pc.next());
+
+          int flagChecker = flag.get();
+
+          int pcJump = pc.get();
+
+          cout << offset << endl;
+
+          // if(flagChecker>0)
+          // pc.set((pcJump+offset));
+
+          // cout << pc.get() << endl;
+        }
         else if(command.compare("NOP") == 0)
         {
             cout << endl;
@@ -107,8 +192,7 @@ int main(){
 
         currentCommand = ram.get( pc.next() );
 
-    } while ( currentCommand != 1 );
+    } while ( currentCommand != 13 );
 
     return 0;
 }
-
