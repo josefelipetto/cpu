@@ -5,8 +5,8 @@
 ; ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
-MOV [1000],5
-MOV [1001],15
+MOV [1000],12
+MOV [1001],9
 MOV AX,[1000]
 MOV BX,[1001]
 
@@ -29,9 +29,7 @@ MOV BX,CX
 JMP 12
 NOP
 ; Se for Maior (Endereco: 41)
-MOV CX,AX
-SUB CX,BX
-MOV AX,CX
+SUB AX,BX
 JMP 12
 NOP
 
