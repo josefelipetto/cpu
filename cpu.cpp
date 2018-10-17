@@ -109,12 +109,12 @@ int main(){
 
           word R2 = ram.get(pc.next());
 
-          registers.set((int)R1,(R1+R2));
+          int value = registers.get((unsigned int)R1)+registers.get((unsigned int)R2);
 
-          cout << R1 << " " << R2 << endl;
+          registers.set((int)R1,value);
 
           //print the result of the sum
-          // cout << registers.get(R1) << endl;
+          cout << R1 << " " << registers.get(R1) << endl;
         }
         else if(command.compare("SUB") == 0){
 
@@ -122,12 +122,13 @@ int main(){
 
           word R2 = ram.get(pc.next());
 
-          registers.set((int)R1,(R1-R2));
+          int value = registers.get((unsigned int)R1)-registers.get((unsigned int)R2);
 
-          cout << R1 << " " << R2 << endl;
+          registers.set((int)R1,value);
+
 
           //print the result of the subtraction
-          // cout << registers.get(R1) << endl;
+          cout << R1 << " " << registers.get(R1) << endl;
         }
         else if(command.compare("CMP") == 0){
 
@@ -135,21 +136,22 @@ int main(){
 
           word R2 = ram.get(pc.next());
 
-          flag.set(R1-R2);
+          int value = registers.get((unsigned int)R1)-registers.get((unsigned int)R2);
 
-          cout << R1 << " " << R2 << endl;
+          flag.set(value);
+
 
           // print the flag state (signed int)
-          // cout << flag.get() << endl;
+          cout << flag.get() << endl;
         }
         else if(command.compare("JMP") == 0){
 
           unsigned int jumpValue = ram.get(pc.next());
 
           // jump a specific number of commands
-          // pc.set((unsigned int)jumpValue);
+          pc.set((unsigned int)jumpValue-1);
 
-          cout << jumpValue << endl;
+          cout << "JMP" << jumpValue << endl;
 
           // print the cicle of the program counter
           // cout << pc.get() << endl;
@@ -165,8 +167,8 @@ int main(){
           cout << offset << endl;
 
           // conditional jump
-          // if(flagChecker==0)
-          // pc.set((pcJump+offset));
+          if(flagChecker==0)
+            pc.set((pcJump+offset)-1);
 
           // cout << pc.get() << endl;
         }
@@ -180,11 +182,82 @@ int main(){
 
           cout << offset << endl;
 
-          // if(flagChecker>0)
-          // pc.set((pcJump+offset));
+          if(flagChecker>0)
+             pc.set((pcJump+offset)-1);
 
           // cout << pc.get() << endl;
-        }
+        } 
+        else if (command.compare("JL") == 0){
+            
+            word offset = ram.get(pc.next());
+
+            int flagChecker = flag.get();
+
+            int pcJump = pc.get();
+
+            cout << offset << endl;
+
+            if(flagChecker < 0)
+                pc.set((pcJump+offset)-1);
+
+        }  
+        else if (command.compare("OUT") == 0){
+            
+            word destinationRegister = ram.get(pc.next());
+
+            int regValue = registers.get(destinationRegister);
+
+            cout << regValue << endl;
+
+        } 
+        else if (command.compare("INC") == 0){
+            
+            word destinationRegister = ram.get(pc.next());
+
+            int value = registers.get((unsigned int)destinationRegister)+1;
+
+            registers.set(destinationRegister,value);
+
+            cout << destinationRegister << " " << value << endl;
+
+        } 
+        else if (command.compare("DEC") == 0){
+            
+            word destinationRegister = ram.get(pc.next());
+
+            int value = registers.get((unsigned int)destinationRegister)-1;
+
+            registers.set(destinationRegister,value);
+
+            cout << destinationRegister << " " << value << endl;
+
+        }  
+        else if (command.compare("MUL") == 0){
+            
+            word R1 = ram.get(pc.next());
+
+            word R2 = ram.get(pc.next());
+
+            int value = ((unsigned int)registers.get(R1)*registers.get((unsigned int)R2));
+
+            registers.set((int)R1,value);
+
+            cout << R1 << " " << value << endl;
+
+        }  
+        else if (command.compare("DIV") == 0){
+            
+            word R1 = ram.get(pc.next());
+
+            word R2 = ram.get(pc.next());
+
+            int value = ((unsigned int)registers.get(R1)/registers.get((unsigned int)R2));
+
+            registers.set((int)R1,value);
+
+            cout << R1 << " " << value << endl;
+
+        }  
         else if(command.compare("NOP") == 0)
         {
             cout << endl;
