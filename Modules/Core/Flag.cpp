@@ -1,10 +1,10 @@
 #include "Flag.h"
 
-Flag::Flag(unsigned int init_addr) {
+Flag::Flag(int init_addr) {
     value = init_addr;
 }
 
-void Flag::set(unsigned int addr) {
+void Flag::set(int addr) {
     value = addr;
 }
 

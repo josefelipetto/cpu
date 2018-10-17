@@ -6,15 +6,15 @@ class Flag final{
 
 public:
 
-    Flag(unsigned int init_addr);
+    Flag(int init_addr);
 
-    void set(unsigned int addr);
+    void set(int addr);
 
     int get();
 
 private:
 
-    unsigned int value;
+    int value;
 };
 
 #endif
