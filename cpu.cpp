@@ -23,20 +23,24 @@ int main(){
     RAM ram;
 
     unsigned int INIT_ADDR = 0;
-    unsigned int HALT = 1000;
+
+    unsigned int HALT = 1;
 
     // Load the executable file to the main memory
     Loader loader(INIT_ADDR,"output.run", &ram);
 
+    ram.debug(INIT_ADDR,53);
+     cout << endl;
     Opcodes opcodes("OPCODES.esym");
 
     // Container that holds user registers and it's values
     Registers registers("REGCODES.esym");
 
-    PC pc((unsigned int)INIT_ADDR);
+    PC pc(INIT_ADDR);
 
-    Flag flag((unsigned int)INIT_ADDR);
+    Flag flag;
 
+    int i = 0;
     // start executing main workflow
     unsigned int currentCommand = ram.get(INIT_ADDR);
 
@@ -140,16 +144,15 @@ int main(){
 
           flag.set(value);
 
-
           // print the flag state (signed int)
-          cout << flag.get() << endl;
+          cout << R1 << " " << R2 << endl;
         }
         else if(command.compare("JMP") == 0){
 
           unsigned int jumpValue = ram.get(pc.next());
 
           // jump a specific number of commands
-          pc.set((unsigned int)jumpValue-1);
+          pc.set(jumpValue-1);
 
           cout << "JMP" << jumpValue << endl;
 
@@ -162,13 +165,11 @@ int main(){
 
           int flagChecker = flag.get();
 
-          int pcJump = pc.get();
-
           cout << offset << endl;
 
           // conditional jump
           if(flagChecker==0)
-            pc.set((pcJump+offset)-1);
+            pc.set( offset - 1 );
 
           // cout << pc.get() << endl;
         }
@@ -178,12 +179,10 @@ int main(){
 
           int flagChecker = flag.get();
 
-          int pcJump = pc.get();
-
           cout << offset << endl;
 
           if(flagChecker>0)
-             pc.set((pcJump+offset)-1);
+             pc.set( offset - 1 );
 
           // cout << pc.get() << endl;
         } 
@@ -193,12 +192,10 @@ int main(){
 
             int flagChecker = flag.get();
 
-            int pcJump = pc.get();
-
             cout << offset << endl;
 
             if(flagChecker < 0)
-                pc.set((pcJump+offset)-1);
+                pc.set( offset - 1 );
 
         }  
         else if (command.compare("OUT") == 0){
@@ -231,7 +228,7 @@ int main(){
 
             cout << destinationRegister << " " << value << endl;
 
-        }  
+        }
         else if (command.compare("MUL") == 0){
             
             word R1 = ram.get(pc.next());
@@ -244,8 +241,8 @@ int main(){
 
             cout << R1 << " " << value << endl;
 
-        }  
-        else if (command.compare("DIV") == 0){
+        }
+        else if ( command.compare("DIV") == 0 ){
             
             word R1 = ram.get(pc.next());
 
@@ -265,7 +262,10 @@ int main(){
 
         currentCommand = ram.get( pc.next() );
 
-    } while ( currentCommand != 13 );
+
+    } while ( currentCommand != HALT );
+
+    cout << pc.get() << " " << " HALT " << endl;
 
     return 0;
 }

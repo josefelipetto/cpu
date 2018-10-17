@@ -6,7 +6,7 @@ class Flag final{
 
 public:
 
-    Flag(int init_addr);
+    Flag();
 
     void set(int addr);
 
