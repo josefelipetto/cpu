@@ -29,8 +29,6 @@ int main(){
     // Load the executable file to the main memory
     Loader loader(INIT_ADDR,"output.run", &ram);
 
-    ram.debug(INIT_ADDR,53);
-     cout << endl;
     Opcodes opcodes("OPCODES.esym");
 
     // Container that holds user registers and it's values
@@ -126,13 +124,12 @@ int main(){
 
           word R2 = ram.get(pc.next());
 
+          cout << R1 << " " << R2 << endl;
+
           int value = registers.get((unsigned int)R1)-registers.get((unsigned int)R2);
 
           registers.set((int)R1,value);
 
-
-          //print the result of the subtraction
-          cout << R1 << " " << registers.get(R1) << endl;
         }
         else if(command.compare("CMP") == 0){
 
@@ -144,7 +141,6 @@ int main(){
 
           flag.set(value);
 
-          // print the flag state (signed int)
           cout << R1 << " " << R2 << endl;
         }
         else if(command.compare("JMP") == 0){
@@ -154,10 +150,8 @@ int main(){
           // jump a specific number of commands
           pc.set(jumpValue-1);
 
-          cout << "JMP" << jumpValue << endl;
+          cout << jumpValue << endl;
 
-          // print the cicle of the program counter
-          // cout << pc.get() << endl;
         }
         else if(command.compare("JZ") == 0){
 
@@ -204,6 +198,8 @@ int main(){
 
             int regValue = registers.get(destinationRegister);
 
+            cout << (unsigned int)destinationRegister << endl;
+
             cout << regValue << endl;
 
         } 
@@ -235,11 +231,11 @@ int main(){
 
             word R2 = ram.get(pc.next());
 
+            cout << R1 << " " << R2 << endl;
+
             int value = ((unsigned int)registers.get(R1)*registers.get((unsigned int)R2));
 
             registers.set((int)R1,value);
-
-            cout << R1 << " " << value << endl;
 
         }
         else if ( command.compare("DIV") == 0 ){
@@ -248,11 +244,11 @@ int main(){
 
             word R2 = ram.get(pc.next());
 
+            cout << R1 << " " << R2 << endl;
+
             int value = ((unsigned int)registers.get(R1)/registers.get((unsigned int)R2));
 
             registers.set((int)R1,value);
-
-            cout << R1 << " " << value << endl;
 
         }  
         else if(command.compare("NOP") == 0)
