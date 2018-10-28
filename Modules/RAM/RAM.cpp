@@ -2,7 +2,7 @@
 
 RAM::RAM() {
 
-    for (unsigned int i = 0; i < RAM_SIZE ; ++i){
+    for (unsigned int i = 0; i < ramSize ; ++i){
 
         MemoryCell aux(i,0);
 
@@ -11,14 +11,13 @@ RAM::RAM() {
 }
 
 word RAM::get(unsigned int memoryAddress) {
-//    cout << memoryCells.at(memoryAddress).getAddr() << "," << memoryCells.at(memoryAddress).getContent() << endl;
+
     return memoryCells.at(memoryAddress).getContent();
 }
 
 void RAM::set(unsigned int memoryAddress, word content) {
 
     memoryCells[memoryAddress].set(content);
-
 }
 
 void RAM::debug(unsigned int begin, unsigned int iEnd) {

@@ -39,6 +39,7 @@ int main(){
     Flag flag;
 
     int i = 0;
+
     // start executing main workflow
     unsigned int currentCommand = ram.get(INIT_ADDR);
 

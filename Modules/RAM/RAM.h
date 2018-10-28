@@ -6,7 +6,7 @@
 
 #define CPU_RAM_H
 
-#define RAM_SIZE 16000
+#define RAM_SIZE 16 * 1024 * 1024
 
 #include "MemoryCell.h"
 #include <vector>
@@ -29,6 +29,8 @@ public:
 private:
 
     std::vector<MemoryCell> memoryCells;
+
+    unsigned int ramSize;
 };
 
 #endif //CPU_RAM_H
