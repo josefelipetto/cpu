@@ -26,6 +26,8 @@ public:
 
     void set(unsigned int memoryAddress, word content);
 
+    unsigned int getRamSize();
+
 private:
 
     std::vector<MemoryCell> memoryCells;

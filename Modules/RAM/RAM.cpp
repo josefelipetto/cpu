@@ -27,3 +27,8 @@ void RAM::debug(unsigned int begin, unsigned int iEnd) {
     }
 
 }
+
+unsigned int RAM::getRamSize() {
+
+    return ramSize;
+}

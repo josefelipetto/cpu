@@ -10,6 +10,7 @@
 #include "Modules/Core/Registers.h"
 #include "Modules/Core/PC.h"
 #include "Modules/Core/Flag.h"
+#include "Modules/Core/Cache.h"
 
 using namespace std;
 
@@ -37,6 +38,8 @@ int main(){
     PC pc(INIT_ADDR);
 
     Flag flag;
+
+    Cache cache;
 
     int i = 0;
 

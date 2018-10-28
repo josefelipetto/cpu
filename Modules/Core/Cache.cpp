@@ -4,13 +4,22 @@
 
 #include "Cache.h"
 
-Cache::Cache(int aCacheSize, int aCacheLineSize, RAM * mainMemory) {
+Cache::Cache(int aCacheSize, int aCacheLineSize, RAM * mainMemory, unsigned int init_addr) {
 
     cacheSize = aCacheSize;
 
     cacheLineSize = aCacheLineSize;
 
     ram = *mainMemory;
+
+    vector<word> aux ;
+
+    for(unsigned int i = init_addr ; i < init_addr + cacheLineSize; ++i){
+        aux.push_back(ram->get(i));
+    }
+
+    // Após copiar o primeiro bloco de código, insere na cache
+    cacheLines.insert(pair<unsigned int, vector<word>(0,aux));
 }
 
 word Cache::get(unsigned int memoryAddress) {
@@ -54,6 +63,6 @@ word Cache::get(unsigned int memoryAddress) {
 
     // Independente se é a primeira vez ou não, depois de copiar o que está na cache para memória principal,
     // temos que copiar um bloco de memória para a cache e retornar para o usuário a palavra.
-    
+
 
 }

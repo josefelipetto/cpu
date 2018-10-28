@@ -19,7 +19,7 @@ class Cache final{
 
 public:
 
-    Cache(int aCacheSize, int aCacheLineSize, RAM * mainMemory);
+    Cache(int aCacheSize, int aCacheLineSize, RAM * mainMemory, unsigned int init_addr);
 
     word get(unsigned int memoryAddress );
 
