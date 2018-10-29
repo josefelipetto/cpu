@@ -39,14 +39,14 @@ int main(){
 
     Flag flag;
 
-    Cache cache;
+    Cache cache(8192,64,&ram,INIT_ADDR);
 
     int i = 0;
-
+    
     // start executing main workflow
-    unsigned int currentCommand = ram.get(INIT_ADDR);
+    unsigned int currentCommand = cache.get(INIT_ADDR);
 
-    do{
+    do {
 
         // Decode
         string command = opcodes.getCommand(currentCommand);
@@ -56,9 +56,9 @@ int main(){
         if(command.compare("MOV_RR") == 0)
         {
             // fetch
-            word R1 = ram.get(pc.next());
+            word R1 = cache.get(pc.next());
 
-            word R2 = ram.get(pc.next());
+            word R2 = cache.get(pc.next());
 
             // handle
             registers.set((unsigned int)R1,registers.get((unsigned int) R2));
@@ -70,30 +70,30 @@ int main(){
         {
 
             // fetch
-            word R1 = ram.get(pc.next());
+            word R1 = cache.get(pc.next());
 
-            word memoryAddress = ram.get(pc.next());
+            word memoryAddress = cache.get(pc.next());
 
             //handle
-            registers.set(R1,ram.get((unsigned int)memoryAddress));
+            registers.set(R1,cache.get((unsigned int)memoryAddress));
 
             cout << R1 << " " << "[" << memoryAddress << "]" << endl;
         }
         else if(command.compare("MOV_MR") == 0 )
         {
-            unsigned int destination = ram.get(pc.next());
+            unsigned int destination = cache.get(pc.next());
 
-            word sourceRegister = ram.get(pc.next());
+            word sourceRegister = cache.get(pc.next());
 
-            ram.set(destination, registers.get(sourceRegister));
+            cache.set(destination, registers.get(sourceRegister));
 
             cout << "[" << destination << "] " << sourceRegister << endl;
         }
         else if(command.compare("MOV_RI") == 0)
         {
-            word destinationRegister = ram.get(pc.next());
+            word destinationRegister = cache.get(pc.next());
 
-            word value = ram.get(pc.next());
+            word value = cache.get(pc.next());
 
             registers.set(destinationRegister,value);
 
@@ -101,19 +101,19 @@ int main(){
         }
         else if(command.compare("MOV_MI") == 0)
         {
-            unsigned int destination = ram.get(pc.next());
+            unsigned int destination = cache.get(pc.next());
 
-            word value = ram.get(pc.next());
+            word value = cache.get(pc.next());
 
-            ram.set(destination,value);
+            cache.set(destination,value);
 
             cout << "[" << destination << "] " << value << endl;
         }
         else if(command.compare("ADD") == 0){
 
-          word R1 = ram.get(pc.next());
+          word R1 = cache.get(pc.next());
 
-          word R2 = ram.get(pc.next());
+          word R2 = cache.get(pc.next());
 
           int value = registers.get((unsigned int)R1)+registers.get((unsigned int)R2);
 
@@ -124,9 +124,9 @@ int main(){
         }
         else if(command.compare("SUB") == 0){
 
-          word R1 = ram.get(pc.next());
+          word R1 = cache.get(pc.next());
 
-          word R2 = ram.get(pc.next());
+          word R2 = cache.get(pc.next());
 
           cout << R1 << " " << R2 << endl;
 
@@ -137,9 +137,9 @@ int main(){
         }
         else if(command.compare("CMP") == 0){
 
-          word R1 = ram.get(pc.next());
+          word R1 = cache.get(pc.next());
 
-          word R2 = ram.get(pc.next());
+          word R2 = cache.get(pc.next());
 
           int value = registers.get((unsigned int)R1)-registers.get((unsigned int)R2);
 
@@ -149,7 +149,7 @@ int main(){
         }
         else if(command.compare("JMP") == 0){
 
-          unsigned int jumpValue = ram.get(pc.next());
+          unsigned int jumpValue = cache.get(pc.next());
 
           // jump a specific number of commands
           pc.set(jumpValue-1);
@@ -159,7 +159,7 @@ int main(){
         }
         else if(command.compare("JZ") == 0){
 
-          word offset = ram.get(pc.next());
+          word offset = cache.get(pc.next());
 
           int flagChecker = flag.get();
 
@@ -173,7 +173,7 @@ int main(){
         }
         else if(command.compare("JG") == 0){
 
-          word offset = ram.get(pc.next());
+          word offset = cache.get(pc.next());
 
           int flagChecker = flag.get();
 
@@ -186,7 +186,7 @@ int main(){
         } 
         else if (command.compare("JL") == 0){
             
-            word offset = ram.get(pc.next());
+            word offset = cache.get(pc.next());
 
             int flagChecker = flag.get();
 
@@ -198,7 +198,7 @@ int main(){
         }  
         else if (command.compare("OUT") == 0){
             
-            word destinationRegister = ram.get(pc.next());
+            word destinationRegister = cache.get(pc.next());
 
             int regValue = registers.get(destinationRegister);
 
@@ -209,7 +209,7 @@ int main(){
         } 
         else if (command.compare("INC") == 0){
             
-            word destinationRegister = ram.get(pc.next());
+            word destinationRegister = cache.get(pc.next());
 
             int value = registers.get((unsigned int)destinationRegister)+1;
 
@@ -220,7 +220,7 @@ int main(){
         } 
         else if (command.compare("DEC") == 0){
             
-            word destinationRegister = ram.get(pc.next());
+            word destinationRegister = cache.get(pc.next());
 
             int value = registers.get((unsigned int)destinationRegister)-1;
 
@@ -231,9 +231,9 @@ int main(){
         }
         else if (command.compare("MUL") == 0){
             
-            word R1 = ram.get(pc.next());
+            word R1 = cache.get(pc.next());
 
-            word R2 = ram.get(pc.next());
+            word R2 = cache.get(pc.next());
 
             cout << R1 << " " << R2 << endl;
 
@@ -244,9 +244,9 @@ int main(){
         }
         else if ( command.compare("DIV") == 0 ){
             
-            word R1 = ram.get(pc.next());
+            word R1 = cache.get(pc.next());
 
-            word R2 = ram.get(pc.next());
+            word R2 = cache.get(pc.next());
 
             cout << R1 << " " << R2 << endl;
 
@@ -260,7 +260,7 @@ int main(){
             cout << endl;
         }
 
-        currentCommand = ram.get( pc.next() );
+        currentCommand = cache.get( pc.next() );
 
 
     } while ( currentCommand != HALT );

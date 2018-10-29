@@ -15,7 +15,7 @@ typedef int word;
 
 using namespace std;
 
-class Cache final{
+class Cache final {
 
 public:
 
@@ -27,13 +27,23 @@ public:
 
 private:
 
-    map<unsigned int, vector<word> > cacheLines;
+    vector< map<unsigned int, vector<word> > > lines;
 
     int cacheSize;
 
     int cacheLineSize;
 
     Ram * ram;
+
+    unsigned int s;
+
+    unsigned int r;
+
+    unsigned int t;
+
+    unsigned int w;
+
+    void decodeAddress( unsigned int memoryAddress );
 
 };
 
