@@ -21,8 +21,7 @@ typedef int word;
 int main(){
 
     // Initialize components;
-    RAM ram;
-
+    RAM ram(16 * 1024 * 1024);
     unsigned int INIT_ADDR = 0;
 
     unsigned int HALT = 1;
@@ -39,13 +38,15 @@ int main(){
 
     Flag flag;
 
-    Cache cache(8192,64,&ram,INIT_ADDR);
+    Cache cache(&ram,INIT_ADDR, loader.getEndCodeAddr());
 
     int i = 0;
     
     // start executing main workflow
     unsigned int currentCommand = cache.get(INIT_ADDR);
 
+    cache.debug();
+    return -1;
     do {
 
         // Decode
@@ -75,7 +76,7 @@ int main(){
             word memoryAddress = cache.get(pc.next());
 
             //handle
-            registers.set(R1,cache.get((unsigned int)memoryAddress));
+            registers.set(R1,cache.get( (unsigned int) memoryAddress ));
 
             cout << R1 << " " << "[" << memoryAddress << "]" << endl;
         }

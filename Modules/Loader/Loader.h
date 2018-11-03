@@ -23,6 +23,8 @@ public:
 
     void load();
 
+    unsigned int getEndCodeAddr();
+
 private:
 
     unsigned int init_addr;
@@ -30,6 +32,8 @@ private:
     RAM *ram;
 
     string run_file;
+
+    unsigned int endCodeAddr;
 
 };
 

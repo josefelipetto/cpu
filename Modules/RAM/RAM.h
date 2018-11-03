@@ -6,8 +6,6 @@
 
 #define CPU_RAM_H
 
-#define RAM_SIZE 16 * 1024 * 1024
-
 #include "MemoryCell.h"
 #include <vector>
 #include <iostream>
@@ -18,7 +16,7 @@ class RAM final{
 
 public:
 
-    RAM();
+    RAM(unsigned int aRamSize);
 
     void debug(unsigned int begin, unsigned int iEnd);
 

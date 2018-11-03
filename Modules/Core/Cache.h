@@ -9,7 +9,9 @@
 #include <map>
 #include <iostream>
 #include <cmath>
-#include "../RAM/RAM.h";
+#include "../RAM/RAM.h"
+#include "Cacheline.h"
+#include <bitset>
 
 typedef int word;
 
@@ -19,21 +21,23 @@ class Cache final {
 
 public:
 
-    Cache(int aCacheSize, int aCacheLineSize, RAM * mainMemory, unsigned int init_addr);
+    Cache(RAM * mainMemory, unsigned int init_addr, unsigned int aEndCodeAddr);
 
     word get(unsigned int memoryAddress );
 
     void set(unsigned int memoryAddress, word content);
 
+    void debug();
+
 private:
 
-    vector< map<unsigned int, vector<word> > > lines;
+    vector< Cacheline > lines;
 
-    int cacheSize;
+    int cacheSize = 8192;
 
-    int cacheLineSize;
+    int cacheLineSize = 64;
 
-    Ram * ram;
+    RAM * ram;
 
     unsigned int s;
 
@@ -45,6 +49,13 @@ private:
 
     void decodeAddress( unsigned int memoryAddress );
 
+    Cacheline findT(unsigned int t);
+
+    unsigned int endCodeAddr;
+
+    unsigned int initAddr;
+
+    void showBinary(int number);
 };
 
 #endif //CPU_CACHE_H

@@ -1,10 +1,12 @@
 #include "RAM.h"
 
-RAM::RAM() {
+RAM::RAM(unsigned int aRamSize) {
+
+    ramSize = aRamSize;
 
     for (unsigned int i = 0; i < ramSize ; ++i){
 
-        MemoryCell aux(i,0);
+        MemoryCell aux(i,1);
 
         memoryCells.push_back(aux);
     }

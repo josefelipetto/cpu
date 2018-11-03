@@ -43,6 +43,10 @@ void Loader::load() {
 
         memoryPosition++;
     }
-//
-//    ram->debug(init_addr, (unsigned int) tokens.size() );
+
+    endCodeAddr = memoryPosition;
+}
+
+unsigned int Loader::getEndCodeAddr() {
+    return endCodeAddr;
 }

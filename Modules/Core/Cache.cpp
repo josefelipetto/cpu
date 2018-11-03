@@ -4,15 +4,24 @@
 
 #include "Cache.h"
 
-#include <bitset>
+Cache::Cache(RAM * mainMemory, unsigned int init_addr,unsigned int aEndCodeAddr) {
 
-Cache::Cache(int aCacheSize, int aCacheLineSize, RAM * mainMemory, unsigned int init_addr) {
+    ram = mainMemory;
 
-    cacheSize = aCacheSize;
+    endCodeAddr = aEndCodeAddr;
 
-    cacheLineSize = aCacheLineSize;
+    init_addr = initAddr;
 
-    ram = *mainMemory;
+    for (unsigned int i = 0; i < (cacheSize/cacheLineSize); ++i)
+    {
+        vector < word > aux(cacheLineSize,0);
+
+        Cacheline cacheline;
+        cacheline.setTag(-1);
+        cacheline.setLine(aux);
+
+        lines.push_back(cacheline);
+    }
 
 }
 
@@ -20,43 +29,49 @@ word Cache::get(unsigned int memoryAddress) {
 
     decodeAddress(memoryAddress);
 
-    if( r < lines.size() )
+    Cacheline cacheLine = findT(t);
+
+    if(cacheLine.found) // Cache hit!
     {
+        return cacheLine.getLine()[w];
+    }
 
-        map< unsigned int, vector<word> >::iterator cacheLine = lines[r].find(t);
+    // Cache miss :(
 
-        cout << "IT: First, second " << cacheLine->first << " " << cacheLine->second << endl;
+    cout << " \n Cache miss" << endl;
 
-        if(cacheLine != lines.end()) // Cache hit!
-        {
-            return cacheLine->second[w];
-        }
+    // copiar o que está na cache para a memória principal
 
-        // Cache miss :(
+    unsigned int memAddr = cacheLine.getTag();
 
-        // Se a cache já tiver dados, ou seja, senão for a primeira vez que ta rodando,
-        // copiar o que está na cache para a memória principal
-
-        if( ! cacheLines.empty() )
-        {
-
-            unsigned int memAddr = cacheLine->first;
-
-            memAddr = ( memAddr  << 53 ) | r;
-
-            memAddr = ( memAddr << 46 ) | 0b0000;
-
-            for(unsigned int i = memAddr, x = 0; i < memAddr + cacheLineSize - 1; ++i, ++x )
-            {
-                ram->set(i, cacheLines[r].second[x]);
-            }
-        }
-
+    showBinary(memAddr);
+    memAddr = ( memAddr  << 6 ) | r;
+    showBinary(memAddr);
+    memAddr = ( memAddr << 7 );
+    showBinary(memAddr);
+    for(unsigned int i = memAddr, x = 0; i < memAddr + cacheLineSize - 1; ++i, ++x )
+    {
+        if( i >= endCodeAddr)
+            ram->set(i,findT(t).getLine()[x]);
     }
 
     // Independente se é a primeira vez ou não, depois de copiar o que está na cache para memória principal,
     // temos que copiar um bloco de memória para a cache e retornar para o usuário a palavra.
 
+    vector<word> aux;
+
+    for(unsigned int i = s; i < s + cacheLineSize - 1; ++i)
+    {
+        aux.push_back(ram->get(i));
+    }
+
+    Cacheline cacheAux;
+    cacheAux.setTag(t);
+    cacheAux.setLine(aux);
+
+    lines[r] = cacheAux;
+
+    return cacheAux.getLine()[w];
 }
 
 void Cache::decodeAddress(unsigned int memoryAddress) {
@@ -71,6 +86,49 @@ void Cache::decodeAddress(unsigned int memoryAddress) {
 
     t /= pow(2,13);
 
-    w = x & 0b0000000000000000000000000000000000000000000000000000000000111111;
+    w = memoryAddress & 0b0000000000000000000000000000000000000000000000000000000000111111;
 
+}
+
+void Cache::set(unsigned int memoryAddress, word content) {
+
+    decodeAddress(memoryAddress);
+
+    vector < word > aux = lines[r].getLine();
+
+    aux[w] = content;
+
+    lines[r].setLine(aux);
+
+}
+
+Cacheline Cache::findT(unsigned int t) {
+
+    for(Cacheline line : lines)
+    {
+        if (line.getTag() == t)
+            return line;
+    }
+
+    Cacheline aux;
+
+    aux.found = false;
+
+    return aux;
+}
+
+void Cache::debug() {
+
+    for(Cacheline line : lines){
+        cout << "T : " << line.getTag() << " --- ";
+        for(word content : line.getLine())
+            cout << content << " | ";
+        cout << "\n ==================================================================================== " << endl;
+    }
+}
+
+void Cache::showBinary(int number) {
+    bitset< 64> binary(number);
+
+    cout << binary << endl;
 }
