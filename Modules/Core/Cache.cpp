@@ -71,7 +71,7 @@ void Cache::set(unsigned int memoryAddress, word content) {
 
     if(cacheline.getTag() != t)
     {
-        cout << "Cache miss" << endl;
+        cout << "\nCache miss" << endl;
 
         copyToMem();
 
