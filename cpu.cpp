@@ -38,15 +38,13 @@ int main(){
 
     Flag flag;
 
-    Cache cache(&ram,INIT_ADDR, loader.getEndCodeAddr());
+    Cache cache(&ram,INIT_ADDR);
 
     int i = 0;
     
     // start executing main workflow
     unsigned int currentCommand = cache.get(INIT_ADDR);
 
-    cache.debug();
-    return -1;
     do {
 
         // Decode

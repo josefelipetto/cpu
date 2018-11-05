@@ -21,7 +21,7 @@ class Cache final {
 
 public:
 
-    Cache(RAM * mainMemory, unsigned int init_addr, unsigned int aEndCodeAddr);
+    Cache(RAM * mainMemory, unsigned int init_addr);
 
     word get(unsigned int memoryAddress );
 
@@ -51,11 +51,13 @@ private:
 
     Cacheline findT(unsigned int t);
 
-    unsigned int endCodeAddr;
-
     unsigned int initAddr;
 
     void showBinary(int number);
+
+    void copyToMem();
+
+    word memToCache();
 };
 
 #endif //CPU_CACHE_H
