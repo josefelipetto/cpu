@@ -10,7 +10,7 @@
 #include "Modules/Core/Registers.h"
 #include "Modules/Core/PC.h"
 #include "Modules/Core/Flag.h"
-#include "Modules/Core/Cache.h"
+#include "Modules/Core/Cache/Cache.h"
 
 using namespace std;
 

@@ -8,9 +8,9 @@
 #include <vector>
 #include <map>
 #include <iostream>
-#include <cmath>
-#include "../RAM/RAM.h"
-#include "Cacheline.h"
+#include "../../RAM/RAM.h"
+#include "../Cacheline.h"
+#include "LogicalAddress.h"
 #include <bitset>
 
 typedef int word;
@@ -39,25 +39,13 @@ private:
 
     RAM * ram;
 
-    unsigned int s;
-
-    unsigned int r;
-
-    unsigned int t;
-
-    unsigned int w;
-
-    void decodeAddress( unsigned int memoryAddress );
-
-    Cacheline findT(unsigned int t);
-
     unsigned int initAddr;
 
     void showBinary(int number);
 
-    void copyToMem();
+    void copyToMemory(LogicalAddress logicalAddress);
 
-    word memToCache();
+    word memoryToCache(LogicalAddress logicalAddress);
 };
 
 #endif //CPU_CACHE_H
