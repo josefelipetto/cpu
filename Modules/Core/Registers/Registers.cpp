@@ -3,7 +3,7 @@
 //
 
 #include "Registers.h"
-#include "../Helpers/StringHelper.h"
+#include "../../Helpers/StringHelper.h"
 
 map<unsigned int,word > Registers::getRegisters() {
 

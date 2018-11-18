@@ -7,8 +7,8 @@
 #include "Modules/RAM/RAM.h"
 #include "Modules/Loader/Loader.h"
 #include "Modules/Helpers/Opcodes.h"
-#include "Modules/Core/Registers.h"
-#include "Modules/Core/PC.h"
+#include "Modules/Core/Registers/Registers.h"
+#include "Modules/Core/Registers/PC.h"
 #include "Modules/Core/Flag.h"
 #include "Modules/Core/Cache/Cache.h"
 
@@ -38,10 +38,10 @@ int main(){
 
     Flag flag;
 
-    Cache cache(&ram,INIT_ADDR);
+    Cache cache(&ram);
 
     int i = 0;
-    
+
     // start executing main workflow
     unsigned int currentCommand = cache.get(INIT_ADDR);
 
@@ -182,9 +182,9 @@ int main(){
              pc.set( offset - 1 );
 
           // cout << pc.get() << endl;
-        } 
+        }
         else if (command.compare("JL") == 0){
-            
+
             word offset = cache.get(pc.next());
 
             int flagChecker = flag.get();
@@ -194,9 +194,9 @@ int main(){
             if(flagChecker < 0)
                 pc.set( offset - 1 );
 
-        }  
+        }
         else if (command.compare("OUT") == 0){
-            
+
             word destinationRegister = cache.get(pc.next());
 
             int regValue = registers.get(destinationRegister);
@@ -205,9 +205,9 @@ int main(){
 
             cout << regValue << endl;
 
-        } 
+        }
         else if (command.compare("INC") == 0){
-            
+
             word destinationRegister = cache.get(pc.next());
 
             int value = registers.get((unsigned int)destinationRegister)+1;
@@ -216,9 +216,9 @@ int main(){
 
             cout << destinationRegister << " " << value << endl;
 
-        } 
+        }
         else if (command.compare("DEC") == 0){
-            
+
             word destinationRegister = cache.get(pc.next());
 
             int value = registers.get((unsigned int)destinationRegister)-1;
@@ -229,7 +229,7 @@ int main(){
 
         }
         else if (command.compare("MUL") == 0){
-            
+
             word R1 = cache.get(pc.next());
 
             word R2 = cache.get(pc.next());
@@ -242,7 +242,7 @@ int main(){
 
         }
         else if ( command.compare("DIV") == 0 ){
-            
+
             word R1 = cache.get(pc.next());
 
             word R2 = cache.get(pc.next());
@@ -253,7 +253,7 @@ int main(){
 
             registers.set((int)R1,value);
 
-        }  
+        }
         else if(command.compare("NOP") == 0)
         {
             cout << endl;

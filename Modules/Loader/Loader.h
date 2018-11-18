@@ -19,7 +19,7 @@ class Loader final{
 
 public:
 
-    Loader(unsigned int addr, string run_file_location, RAM * memory);
+    Loader(unsigned int addr, ifstream * _file, RAM * memory);
 
     void load();
 
@@ -31,7 +31,7 @@ private:
 
     RAM *ram;
 
-    string run_file;
+    ifstream * file;
 
     unsigned int endCodeAddr;
 

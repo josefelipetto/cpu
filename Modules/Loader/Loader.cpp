@@ -5,26 +5,25 @@
 #include "Loader.h"
 #include "../Helpers/StringHelper.h"
 
-Loader::Loader(unsigned int addr, string run_file_location, RAM * memory) {
+Loader::Loader(unsigned int addr, ifstream *_file, RAM *memory) {
 
     init_addr = addr;
 
-    run_file = run_file_location;
+    file = _file;
 
     ram = memory;
 
     load();
 }
 
-void Loader::load() {
 
-    ifstream infile(run_file);
+void Loader::load() {
 
     string line;
 
     string code = "";
 
-    while (getline(infile,line)){
+    while (getline(*file,line)){
 
         code.append(line);
     }

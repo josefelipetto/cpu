@@ -9,7 +9,7 @@
 #include <map>
 #include <iostream>
 #include "../../RAM/RAM.h"
-#include "../Cacheline.h"
+#include "Cacheline.h"
 #include "LogicalAddress.h"
 #include <bitset>
 
@@ -21,11 +21,11 @@ class Cache final {
 
 public:
 
-    Cache(RAM * mainMemory, unsigned int init_addr);
+    Cache(RAM * mainMemory);
 
-    word get(unsigned int memoryAddress );
+    word get( unsigned int memoryAddress );
 
-    void set(unsigned int memoryAddress, word content);
+    void set( unsigned int memoryAddress, word content);
 
     void debug();
 
@@ -38,8 +38,6 @@ private:
     int cacheLineSize = 64;
 
     RAM * ram;
-
-    unsigned int initAddr;
 
     void showBinary(int number);
 

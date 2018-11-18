@@ -4,11 +4,9 @@
 
 #include "Cache.h"
 
-Cache::Cache(RAM * mainMemory, unsigned int init_addr) {
+Cache::Cache(RAM * mainMemory) {
 
     ram = mainMemory;
-
-    init_addr = initAddr;
 
     for (unsigned int i = 0; i < (cacheSize/cacheLineSize); ++i)
     {
