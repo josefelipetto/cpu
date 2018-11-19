@@ -4,10 +4,11 @@
 
 #include "Cache.h"
 
-Cache::Cache(RAM * mainMemory) {
+Cache::Cache(RAM * mainMemory, int cpu) {
 
     ram = mainMemory;
 
+    cpuId = cpu;
     for (unsigned int i = 0; i < (cacheSize/cacheLineSize); ++i)
     {
         vector < word > aux(cacheLineSize,0);
@@ -32,8 +33,6 @@ word Cache::get(unsigned int memoryAddress) {
         return cacheLine.getLine()[logicalAddress.W()];
     }
 
-    cout << "\nCache miss" << endl;
-
     copyToMemory(logicalAddress);
 
     return memoryToCache(logicalAddress);
@@ -48,8 +47,6 @@ void Cache::set(unsigned int memoryAddress, word content) {
 
     if(cacheline.getTag() != logicalAddress.T())
     {
-        cout << "\nCache miss" << endl;
-
         copyToMemory(logicalAddress);
 
         memoryToCache(logicalAddress);
@@ -91,15 +88,15 @@ void Cache::copyToMemory(LogicalAddress logicalAddress) {
     {
         unsigned int memAddr = logicalAddress.T();
 
-        showBinary(memAddr);
+        // showBinary(memAddr);
 
         memAddr = ( memAddr  << 6 ) | logicalAddress.R();
 
-        showBinary(memAddr);
+        // showBinary(memAddr);
 
         memAddr = ( memAddr << 7 );
 
-        showBinary(memAddr);
+        // showBinary(memAddr);
 
         for(unsigned int i = memAddr, x = 0; i < memAddr + cacheLineSize - 1; ++i, ++x )
         {

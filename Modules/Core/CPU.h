@@ -29,6 +29,7 @@ public:
 
     int init();
 
+    int getId();
 private:
 
     unsigned int INIT_ADDR;

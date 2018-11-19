@@ -21,7 +21,7 @@ class Cache final {
 
 public:
 
-    Cache(RAM * mainMemory);
+    Cache(RAM * mainMemory, int cpu);
 
     word get( unsigned int memoryAddress );
 
@@ -44,6 +44,8 @@ private:
     void copyToMemory(LogicalAddress logicalAddress);
 
     word memoryToCache(LogicalAddress logicalAddress);
+
+    int cpuId;
 };
 
 #endif //CPU_CACHE_H

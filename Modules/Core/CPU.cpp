@@ -18,14 +18,12 @@ CPU::CPU(RAM *_ram, unsigned int initAddr, Opcodes * _opcodes, string regCodesFi
 
     flag = new Flag;
 
-    cache = new Cache(_ram);
+    cache = new Cache(_ram,cpuNumber);
 
     id = cpuNumber;
 }
 
 int CPU::init() {
-
-    int i = 0;
 
     // start executing main workflow
     unsigned int currentCommand = cache->get(INIT_ADDR);
@@ -35,7 +33,7 @@ int CPU::init() {
         // Decode
         string command = opcodes->getCommand(currentCommand);
 
-        cout << "CPU " << id << " : " << pc->get() << " " << command << " ";
+        // cout << pc->get() << " " << command << " ";
 
         if(command.compare("MOV_RR") == 0)
         {
@@ -47,7 +45,7 @@ int CPU::init() {
             // handle
             registers->set((unsigned int)R1,registers->get((unsigned int) R2));
 
-            cout << R1 << " " << R2 << endl;
+            // cout << R1 << " " << R2 << endl;
 
         }
         else if(command.compare("MOV_RM") == 0)
@@ -61,7 +59,7 @@ int CPU::init() {
             //handle
             registers->set(R1,cache->get( (unsigned int) memoryAddress ));
 
-            cout << R1 << " " << "[" << memoryAddress << "]" << endl;
+            // cout << R1 << " " << "[" << memoryAddress << "]" << endl;
         }
         else if(command.compare("MOV_MR") == 0 )
         {
@@ -71,7 +69,7 @@ int CPU::init() {
 
             cache->set(destination, registers->get(sourceRegister));
 
-            cout << "[" << destination << "] " << sourceRegister << endl;
+            // cout << "[" << destination << "] " << sourceRegister << endl;
         }
         else if(command.compare("MOV_RI") == 0)
         {
@@ -81,7 +79,7 @@ int CPU::init() {
 
             registers->set(destinationRegister,value);
 
-            cout << destinationRegister << " " << value << endl;
+            // cout << destinationRegister << " " << value << endl;
         }
         else if(command.compare("MOV_MI") == 0)
         {
@@ -91,7 +89,7 @@ int CPU::init() {
 
             cache->set(destination,value);
 
-            cout << "[" << destination << "] " << value << endl;
+            // cout << "[" << destination << "] " << value << endl;
         }
         else if(command.compare("ADD") == 0){
 
@@ -104,7 +102,7 @@ int CPU::init() {
             registers->set((int)R1,value);
 
             //print the result of the sum
-            cout << R1 << " " << registers->get(R1) << endl;
+            // cout << R1 << " " << registers->get(R1) << endl;
         }
         else if(command.compare("SUB") == 0){
 
@@ -112,7 +110,7 @@ int CPU::init() {
 
             word R2 = cache->get(pc->next());
 
-            cout << R1 << " " << R2 << endl;
+            // cout << R1 << " " << R2 << endl;
 
             int value = registers->get((unsigned int)R1)-registers->get((unsigned int)R2);
 
@@ -129,7 +127,7 @@ int CPU::init() {
 
             flag->set(value);
 
-            cout << R1 << " " << R2 << endl;
+            // cout << R1 << " " << R2 << endl;
         }
         else if(command.compare("JMP") == 0){
 
@@ -138,7 +136,7 @@ int CPU::init() {
             // jump a specific number of commands
             pc->set(jumpValue-1);
 
-            cout << jumpValue << endl;
+            // cout << jumpValue << endl;
 
         }
         else if(command.compare("JZ") == 0){
@@ -147,7 +145,7 @@ int CPU::init() {
 
             int flagChecker = flag->get();
 
-            cout << offset << endl;
+            // cout << offset << endl;
 
             // conditional jump
             if(flagChecker==0)
@@ -161,7 +159,7 @@ int CPU::init() {
 
             int flagChecker = flag->get();
 
-            cout << offset << endl;
+            // cout << offset << endl;
 
             if(flagChecker>0)
                 pc->set( offset - 1 );
@@ -174,7 +172,7 @@ int CPU::init() {
 
             int flagChecker = flag->get();
 
-            cout << offset << endl;
+            // cout << offset << endl;
 
             if(flagChecker < 0)
                 pc->set( offset - 1 );
@@ -186,9 +184,9 @@ int CPU::init() {
 
             int regValue = registers->get(destinationRegister);
 
-            cout << (unsigned int)destinationRegister << endl;
+            // cout << (unsigned int)destinationRegister << endl;
 
-            cout << "CPU " <<  id << " : OUT RESULT " << regValue << endl;
+            cout << " \n CPU " <<  id << " -> OUT " << regValue << endl;
 
         }
         else if (command.compare("INC") == 0){
@@ -199,7 +197,7 @@ int CPU::init() {
 
             registers->set(destinationRegister,value);
 
-            cout << destinationRegister << " " << value << endl;
+            // cout << destinationRegister << " " << value << endl;
 
         }
         else if (command.compare("DEC") == 0){
@@ -210,7 +208,7 @@ int CPU::init() {
 
             registers->set(destinationRegister,value);
 
-            cout << destinationRegister << " " << value << endl;
+            // cout << destinationRegister << " " << value << endl;
 
         }
         else if (command.compare("MUL") == 0){
@@ -219,7 +217,7 @@ int CPU::init() {
 
             word R2 = cache->get(pc->next());
 
-            cout << R1 << " " << R2 << endl;
+            // cout << R1 << " " << R2 << endl;
 
             int value = ((unsigned int)registers->get(R1)*registers->get((unsigned int)R2));
 
@@ -232,7 +230,7 @@ int CPU::init() {
 
             word R2 = cache->get(pc->next());
 
-            cout << R1 << " " << R2 << endl;
+            // cout << R1 << " " << R2 << endl;
 
             int value = ((unsigned int)registers->get(R1)/registers->get((unsigned int)R2));
 
@@ -241,7 +239,7 @@ int CPU::init() {
         }
         else if(command.compare("NOP") == 0)
         {
-            cout << endl;
+
         }
 
         currentCommand = cache->get( pc->next() );
@@ -249,7 +247,9 @@ int CPU::init() {
 
     } while ( currentCommand != 1 );
 
-    cout << "CPU " << id << " : " << pc->get() << " " << " HALT " << endl;
-
     return 0;
+}
+
+int CPU::getId() {
+    return id;
 }
